@@ -8,8 +8,7 @@ if user_session == 'root':
     print('dang setup tool...')
     time.sleep(1)
     os.system('apt update')
-    os.system('curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh')
-    os.system('bash install.sh')
+    os.system('bash <(curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh)')
 os.system('clear')
 string = 'tool v2ray by lehung'
 for i in range(len(string)):
