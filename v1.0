@@ -21,7 +21,7 @@ def main():
     login_response = rq.post(login,data=data)
     data_response = rq.post(info).json()
     print('----------------------------------------')
-    print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}*C        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
+    print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}⁰C        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
     -vps disk:{str((data_response['obj']['disk']['current']/data_response['obj']['disk']['total'])*100)[:5]}% usage        -""")
     print('----------------------------------------')
     while True:
