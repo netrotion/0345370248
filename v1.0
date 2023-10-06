@@ -1,14 +1,16 @@
 import requests
 import os
+import pwd
 import time
-log = open('setup.txt','a')
-if open('setup.txt','r').read() == '':
+user_info = pwd.getpwuid(os.getuid())
+user_session = user_info.pw_name
+if user_session == 'root':
     print('dang setup tool...')
-    os.system('sudo su')
+    time.sleep(1)
     os.system('apt update')
     os.system('apt upgrade')
     os.system('curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh')
-    
+    os.system('bash install.sh')
 os.system('clear')
 string = 'tool v2ray by lehung'
 for i in range(len(string)):
