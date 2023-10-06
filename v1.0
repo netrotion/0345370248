@@ -9,6 +9,7 @@ if user_session == 'root':
     time.sleep(1)
     os.system('apt update')
     os.system('bash <(curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh)')
+    input()
 os.system('clear')
 string = 'tool v2ray by lehung'
 for i in range(len(string)):
