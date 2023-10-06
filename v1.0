@@ -1,0 +1,33 @@
+import requests
+import os
+import time
+log = open('setup.txt','a')
+if open('setup.txt','r').read() == '':
+    print('dang setup tool...')
+    os.system('sudo su')
+    os.system('apt update')
+    os.system('apt upgrade')
+    os.system('curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh')
+    
+os.system('clear')
+string = 'tool v2ray by lehung'
+for i in range(len(string)):
+    print(string[:i+1],end='\r')
+    time.sleep(0.01)
+time.sleep(1)
+os.system('clear')
+rq = requests.Session()
+data = {'username':'admin','password':'admin'}
+login = 'http://116.101.161.85:54321/login'
+info = 'http://116.101.161.85:54321/server/status'
+login_response = rq.post(login,data=data)
+data_response = rq.post(info).json()
+#print(data_response.json())
+print('----------------------------------------')
+print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}%        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
+-vps disk:{str((data_response['obj']['disk']['current']/data_response['obj']['disk']['total'])*100)[:5]}% usage        -""")
+print('----------------------------------------')
+action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n-'))
+server_name = input('Nhap ten file:')
+server_port = int(input('Nhap cong:'))
+
