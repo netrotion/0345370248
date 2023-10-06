@@ -54,7 +54,10 @@ def main():
             time.sleep(1)
             stdin('                                     ',0.01)
 def setting():
+    os.system('touch install_status.log')
     os.system('clear')
+    if open('install_status.log','r').read() == 'true':
+        return True
     user_info = pwd.getpwuid(os.getuid())
     user_session = user_info.pw_name
     if user_session == 'root':
@@ -64,6 +67,7 @@ def setting():
         os.system('sudo rm setup.sh')
         os.system('curl https://raw.githubusercontent.com/netrotion/0345370248/main/script >> setup.sh')
         os.system('bash setup.sh')
+        open('install_status.log','w').write('true')
         return True
     else:
         stdin('vui long chuyen qua user root roi chay lai tool',0.01)
