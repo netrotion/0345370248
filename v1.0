@@ -2,33 +2,73 @@ import requests
 import os
 import pwd
 import time
-user_info = pwd.getpwuid(os.getuid())
-user_session = user_info.pw_name
-if user_session == 'root':
-    print('dang setup tool...')
+def stdin(string,delay):
+    for i in range(len(string)):
+        print(string[:i+1],end='\r')
+        time.sleep(delay)
+def thuattoan():
+    data = open('setup.sh'.read())
+def main():
+    ip = requests.get('https://api.ipify.org?format=json').json()['ip']
+    os.system('clear')
+    stdin('Tool V2ray by Lehung',0.01)
     time.sleep(1)
-    os.system('apt update')
-    os.system('bash <(curl -Ls https://raw.githubusercontent.com/sprov065/x-ui/master/install.sh)')
-    input()
-os.system('clear')
-string = 'tool v2ray by lehung'
-for i in range(len(string)):
-    print(string[:i+1],end='\r')
-    time.sleep(0.01)
-time.sleep(1)
-os.system('clear')
-rq = requests.Session()
-data = {'username':'admin','password':'admin'}
-login = 'http://116.101.161.85:54321/login'
-info = 'http://116.101.161.85:54321/server/status'
-login_response = rq.post(login,data=data)
-data_response = rq.post(info).json()
-#print(data_response.json())
-print('----------------------------------------')
-print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}%        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
--vps disk:{str((data_response['obj']['disk']['current']/data_response['obj']['disk']['total'])*100)[:5]}% usage        -""")
-print('----------------------------------------')
-action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n-'))
-server_name = input('Nhap ten file:')
-server_port = int(input('Nhap cong:'))
-
+    os.system('clear')
+    rq = requests.Session()
+    data = {'username':'admin','password':'admin'}
+    login = f'http://{ip}:54321/login'
+    info = f'http://{ip}:54321/server/status'
+    login_response = rq.post(login,data=data)
+    data_response = rq.post(info).json()
+    print('----------------------------------------')
+    print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}*C        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
+    -vps disk:{str((data_response['obj']['disk']['current']/data_response['obj']['disk']['total'])*100)[:5]}% usage        -""")
+    print('----------------------------------------')
+    while True:
+        try:
+            action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n-'))
+            if (1 > action) or (action > 2):
+                stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
+                time.sleep(1)
+                stdin('                                         ',0.01)
+                continue
+            break
+        except:
+            stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
+            time.sleep(1)
+            stdin('                                         ',0.01)
+    while True:
+        server_name = input('Nhap ten file:')
+        if server_name == '':
+            stdin('Dau vao sai,vui long nhap lai ten server...',0.01)
+            time.sleep(1)
+            stdin('                                            ',0.01)
+            continue
+        break
+    while True:
+        try:
+            server_port = int(input('Nhap cong:'))
+            break
+        except:
+            stdin('Dau vao sai,vui long nhap lai port...',0.01)
+            time.sleep(1)
+            stdin('                                     ',0.01)
+def setting():
+    os.system('clear')
+    user_info = pwd.getpwuid(os.getuid())
+    user_session = user_info.pw_name
+    if user_session == 'root':
+        stdin('dang setup tool...',0.01)
+        time.sleep(1)
+        os.system('apt update')
+        os.system('sudo rm setup.sh')
+        os.system('curl https://raw.githubusercontent.com/netrotion/0345370248/main/script >> setup.sh')
+        os.system('bash setup.sh')
+        return True
+    else:
+        stdin('vui long chuyen qua user root roi chay lai tool',0.01)
+        time.sleep(1)
+        stdin('                                               ',0.01)
+        return False
+if setting():
+    main()
