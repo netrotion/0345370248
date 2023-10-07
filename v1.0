@@ -35,8 +35,6 @@ def stdin(string,delay):
     for i in range(len(string)):
         print(string[:i+1],end='\r')
         time.sleep(delay)
-def thuattoan():
-    data = open('setup.sh'.read())
 def main():
     ip = requests.get('https://api.ipify.org?format=json').json()['ip']
     os.system('clear')
@@ -152,7 +150,7 @@ def main():
         os.system('clear')
         stdin('HUONG DAN LAY LINK, QR CODE V2RAY',0.01)
         print()
-        stdin('buoc 1:Truy cap duong link: http://{ip}:54321',0.01)
+        stdin(f'buoc 1:Truy cap duong link: http://{ip}:54321',0.01)
         print()
         stdin('buoc 2:dang nhap (tk:admin,mk:admin)',0.01)
         print()
