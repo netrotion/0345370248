@@ -70,8 +70,8 @@ def main():
             time.sleep(1)
             stdin('                                     ',0.01)
     if action == 1:
-        data = {'up': '121385598',
-                'down': '1317941669',
+        data = {'up': '0',
+                'down': '0',
                 'total': '0',
                 'remark': server_name,
                 'enable': 'true',
@@ -82,7 +82,7 @@ def main():
                 'settings': {
                 "clients": [
                     {
-                    "id": "331f6e99-3098-45ee-8277-9fa5d1fdc689",
+                    "id": "",
                     "alterId": '0',
                     }
                 ],
