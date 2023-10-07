@@ -3,6 +3,33 @@ import os
 import pwd
 import time
 import codecs
+import random
+def input_info():
+    while True:
+        server_name = input('Nhap ten file:')
+        if server_name == '':
+            stdin('Dau vao sai,vui long nhap lai ten server...',0.01)
+            time.sleep(1)
+            stdin('                                            ',0.01)
+            continue
+        break
+    while True:
+        server_port = input('Nhap cong(default:80):')
+        if server_port == '':
+            server_port = 80
+            break
+        elif server_port.isnumeric == False:
+            stdin('Dau vao sai,vui long nhap lai port...',0.01)
+            time.sleep(1)
+            stdin('                                     ',0.01)
+            continue
+        break
+    return [server_name,server_port]
+def id_generator():
+    os.system('uuidgen >> uuid.txt')
+    content_id = open('uuid.txt','r').read()
+    os.system('rm uuid.txt')
+    return content_id
 def stdin(string,delay):
     for i in range(len(string)):
         print(string[:i+1],end='\r')
@@ -42,8 +69,8 @@ def main():
     except:pass
     while True:
         try:
-            action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n3.xoa server v2ray\n-'))
-            if (1 > action) or (action > 3):
+            action = int(input('\n1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n2.1.Lay link server\n3.xoa server v2ray\n4.thoat\n-'))
+            if (1 > action) or (action > 4):
                 stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
                 time.sleep(1)
                 stdin('                                         ',0.01)
@@ -53,23 +80,9 @@ def main():
             stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
             time.sleep(1)
             stdin('                                         ',0.01)
-    while True:
-        server_name = input('Nhap ten file:')
-        if server_name == '':
-            stdin('Dau vao sai,vui long nhap lai ten server...',0.01)
-            time.sleep(1)
-            stdin('                                            ',0.01)
-            continue
-        break
-    while True:
-        try:
-            server_port = int(input('Nhap cong:'))
-            break
-        except:
-            stdin('Dau vao sai,vui long nhap lai port...',0.01)
-            time.sleep(1)
-            stdin('                                     ',0.01)
     if action == 1:
+        in4 = input_info()
+        server_name,server_port = in4[0],in4[1]
         data = {'up': '0',
                 'down': '0',
                 'total': '0',
@@ -79,53 +92,82 @@ def main():
                 'listen': '',
                 'port': server_port,
                 'protocol': 'vmess',
-                'settings': """{
-                    "clients": [
-                        {
-                        "id": "",
-                        "alterId": '0',
-                        }
-                    ],
-                    "disableInsecureEncryption": 'false'
-                    }""",
-                'streamSettings': """{
-                    "network": "tcp",
-                    "security": "none",
-                    "tcpSettings": {
-                        "header": {
-                            "type": "http",
-                        }
-                    "request": {
-                        "method": "GET",
-                        "path": [
-                            "/"
-                        ],
-                        "headers": {
-                            "Host": [
-                                "dl.kgvn.garenanow.com"
-                            ]
-                        }
-                    },
-                    "response": {
-                        "version": "1.1",
-                        "status": "200",
-                        "reason": "OK",
-                        "headers": {}
-                    }
-                }
-            }""",
-            'sniffing': """{
-                "enabled": 'true',
-                "destOverride": [
-                    "http",
-                    "tls",
-                ]
-            }"""
+                'settings': '''{
+  "clients": [
+    {
+      "id": "'''+id_generator()+'''",
+      "alterId": 0
+    }
+  ],
+  "disableInsecureEncryption": false
+}''',
+                'streamSettings': '''{
+  "network": "tcp",
+  "security": "none",
+  "tcpSettings": {
+    "header": {
+      "type": "http",
+      "request": {
+        "method": "GET",
+        "path": [
+          "/"
+        ],
+        "headers": {
+          "Host": [
+            "dl.kgvn.garenanow.com"
+          ]
+        }
+      },
+      "response": {
+        "version": "1.1",
+        "status": "200",
+        "reason": "OK",
+        "headers": {}
+      }
+    }
+  }
+}''',
+                'sniffing': '''{
+  "enabled": true,
+  "destOverride": [
+    "http",
+    "tls"
+  ]
+}'''
 }
-        response = rq.post(addserver,data=data)
+        response = rq.post(addserver,data=data).json()
+        if response['success']:
+            stdin('Tao server thanh cong...',0.01)
+            time.sleep(1)
+            stdin('                        ',0.01)
+            return
+        else:
+            stdin('Port bi trung,vui long tao lai server...',0.01)
+            time.sleep(1)
+            stdin('                                        ',0.01)
+            return
         print(response.text)
+    elif action == 2.1:
+        os.system('clear')
+        stdin('HUONG DAN LAY LINK, QR CODE V2RAY',0.01)
+        stdin('buoc 1:Truy cap duong link: http://{ip}:54321',0.01)
+        stdin('buoc 2:dang nhap (tk:admin,mk:admin)',0.01)
+        stdin('buoc 3:o cot ben trai man hinh, neu tren dien thoai thi nhan vao bieu tuong 4 gach ngang',0.01)
+        stdin('buoc 4:nhan vao dong thu 2',0.01)
+        stdin('buoc 5:nhan vao dong chu o ben trai nut bat/tat',0.01)
+        stdin('buoc 6:nhan vao dong thu nhat and done',0.01)
+        input('-Nhan phim bat ky de thoat...')
     elif action == 3:
-        pass
+        stdin('Chon server can xoa,neu muon dung thi nhan (q) va enter',0.01)
+        print()
+        while True:
+            pick = input('-')
+            if pick == 'q':
+                break
+            link = f'http://116.101.161.85:54321/xui/inbound/del/{pick}'
+            rq.post(link)
+    elif action == 4:
+        return 'out'
 def setting():
     os.system('touch install_status.log')
     os.system('clear')
@@ -137,6 +179,7 @@ def setting():
         stdin('dang setup tool...',0.01)
         time.sleep(1)
         os.system('apt update')
+        os.system('apt install uuid')
         os.system('sudo rm setup.sh')
         os.system('curl https://raw.githubusercontent.com/netrotion/0345370248/main/script >> setup.sh')
         os.system('bash setup.sh')
@@ -148,6 +191,10 @@ def setting():
         stdin('                                               ',0.01)
         return False
 if setting():
-    main()
-
-
+    while True:
+        response = main()
+        if response == 'out':
+            break
+    stdin('tam biet!',0.01)
+    time.sleep(1)
+    stdin('         ',0.01)
