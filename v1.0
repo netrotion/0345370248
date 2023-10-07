@@ -28,6 +28,7 @@ def input_info():
 def id_generator():
     os.system('uuidgen >> uuid.txt')
     content_id = open('uuid.txt','r').read()
+    content_id = replace('\n','')
     os.system('rm uuid.txt')
     return content_id
 def stdin(string,delay):
