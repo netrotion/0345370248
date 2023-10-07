@@ -80,29 +80,29 @@ def main():
                 'port': server_port,
                 'protocol': 'vmess',
                 'settings': {
-                "clients": [
-                    {
-                    "id": "",
-                    "alterId": '0',
-                    }
-                ],
-                "disableInsecureEncryption": 'false'
-                },
+                    "clients": [
+                        {
+                        "id": "",
+                        "alterId": '0',
+                        }
+                    ],
+                    "disableInsecureEncryption": 'false'
+                    },
                 'streamSettings': {
-                "network": "tcp",
-                "security": "none",
-                "tcpSettings": {
-                    "header": {
-                    "type": "http",
+                    "network": "tcp",
+                    "security": "none",
+                    "tcpSettings": {
+                        "header": {
+                            "type": "http",
                     "request": {
                         "method": "GET",
                         "path": [
-                        "/"
+                            "/"
                         ],
                         "headers": {
-                        "Host": [
-                            "dl.kgvn.garenanow.com"
-                        ]
+                            "Host": [
+                                "dl.kgvn.garenanow.com"
+                            ]
                         }
                     },
                     "response": {
@@ -111,17 +111,17 @@ def main():
                         "reason": "OK",
                         "headers": {}
                     }
-                    }
                 }
-                },
-                'sniffing': {
-                "enabled": 'true',
-                "destOverride": [
-                    "http",
-                    "tls",
-                ]
-                }
+            }
+        },
+        'sniffing': {
+            "enabled": 'true',
+            "destOverride": [
+                "http",
+                "tls",
+            ]
         }
+}
         response = rq.post(addserver,data=data)
         print(response.text)
     elif action == 3:
