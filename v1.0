@@ -69,7 +69,7 @@ def main():
     except:pass
     while True:
         try:
-            action = int(input('\n1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n2.1.Lay link server\n3.xoa server v2ray\n4.thoat\n-'))
+            action = int(input('\n1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n3.Lay link server\n4.xoa server v2ray\n5.thoat\n-'))
             if (1 > action) or (action > 4):
                 stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
                 time.sleep(1)
@@ -147,7 +147,7 @@ def main():
             stdin('                                        ',0.01)
             return
         print(response.text)
-    elif action == 2.1:
+    elif action == 3:
         os.system('clear')
         stdin('HUONG DAN LAY LINK, QR CODE V2RAY',0.01)
         stdin('buoc 1:Truy cap duong link: http://{ip}:54321',0.01)
@@ -157,7 +157,7 @@ def main():
         stdin('buoc 5:nhan vao dong chu o ben trai nut bat/tat',0.01)
         stdin('buoc 6:nhan vao dong thu nhat and done',0.01)
         input('-Nhan phim bat ky de thoat...')
-    elif action == 3:
+    elif action == 4:
         stdin('Chon server can xoa,neu muon dung thi nhan (q) va enter',0.01)
         print()
         while True:
@@ -166,7 +166,7 @@ def main():
                 break
             link = f'http://116.101.161.85:54321/xui/inbound/del/{pick}'
             rq.post(link)
-    elif action == 4:
+    elif action == 5:
         return 'out'
 def setting():
     os.system('touch install_status.log')
