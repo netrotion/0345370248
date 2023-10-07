@@ -2,6 +2,7 @@ import requests
 import os
 import pwd
 import time
+import codecs
 def stdin(string,delay):
     for i in range(len(string)):
         print(string[:i+1],end='\r')
@@ -18,16 +19,31 @@ def main():
     data = {'username':'admin','password':'admin'}
     login = f'http://{ip}:54321/login'
     info = f'http://{ip}:54321/server/status'
-    login_response = rq.post(login,data=data)
-    data_response = rq.post(info).json()
-    print('----------------------------------------')
+    sl = f'http://{ip}:54321/xui/inbound/list'
+    addserver = f'http://{ip}:54321/xui/inbound/add'
+    try:
+        login_response = rq.post(login,data=data)
+        data_response = rq.post(info).json()
+        server_list = rq.post(sl).json()
+    except:
+        stdin('loi mang, vui long kiem tra lai...',0.01)
+        time.sleep(1)
+        stdin('                                  ',0.01)
+        return
+    print('─────────────────────────────────────────────────')
     print(f"""-vps cpu:{str(data_response['obj']['cpu'])[:4]}⁰C        -vps memory:{str((data_response['obj']['mem']['current']/data_response['obj']['mem']['total'])*100)[:5]}%
 -vps disk:{str((data_response['obj']['disk']['current']/data_response['obj']['disk']['total'])*100)[:5]}% usage        -""")
-    print('----------------------------------------')
+    print('─────────────────────────────────────────────────')
+    try:
+        data = server_list['obj']
+        for i in data:
+            print(f'-server {i["id"]}:{i["remark"]}\n-status:{i["enable"]}\n-data usage:{int(i["up"]/1048)}/{int(i["down"]/1048)}mb')
+            print('─────────────────────────────────────────────────')
+    except:pass
     while True:
         try:
-            action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n-'))
-            if (1 > action) or (action > 2):
+            action = int(input('1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n3.xoa server v2ray\n-'))
+            if (1 > action) or (action > 3):
                 stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
                 time.sleep(1)
                 stdin('                                         ',0.01)
@@ -53,6 +69,63 @@ def main():
             stdin('Dau vao sai,vui long nhap lai port...',0.01)
             time.sleep(1)
             stdin('                                     ',0.01)
+    if action == 1:
+        data = {'up': '121385598',
+                'down': '1317941669',
+                'total': '0',
+                'remark': server_name,
+                'enable': 'true',
+                'expiryTime': '0',
+                'listen': '',
+                'port': server_port,
+                'protocol': 'vmess',
+                'settings': {
+                "clients": [
+                    {
+                    "id": "331f6e99-3098-45ee-8277-9fa5d1fdc689",
+                    "alterId": '0',
+                    }
+                ],
+                "disableInsecureEncryption": 'false'
+                },
+                'streamSettings': {
+                "network": "tcp",
+                "security": "none",
+                "tcpSettings": {
+                    "header": {
+                    "type": "http",
+                    "request": {
+                        "method": "GET",
+                        "path": [
+                        "/"
+                        ],
+                        "headers": {
+                        "Host": [
+                            "dl.kgvn.garenanow.com"
+                        ]
+                        }
+                    },
+                    "response": {
+                        "version": "1.1",
+                        "status": "200",
+                        "reason": "OK",
+                        "headers": {}
+                    }
+                    }
+                }
+                },
+                'sniffing': {
+                "enabled": 'true',
+                "destOverride": [
+                    "http",
+                    "tls",
+                ]
+                }
+        }
+        response = rq.post(addserver,data=data)
+        print(response.text)
+    elif action == 3:
+        
 def setting():
     os.system('touch install_status.log')
     os.system('clear')
@@ -76,3 +149,5 @@ def setting():
         return False
 if setting():
     main()
+
+
