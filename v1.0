@@ -71,7 +71,7 @@ def main():
     while True:
         try:
             action = int(input('\n1.Them V2ray server sni Lien Quan\n2.Them V2ray server sni tiktok\n3.Lay link server\n4.xoa server v2ray\n5.thoat\n-'))
-            if (1 > action) or (action > 4):
+            if (1 > action) or (action > 5):
                 stdin('Dau vao sai,vui long nhap lai lua chon...',0.01)
                 time.sleep(1)
                 stdin('                                         ',0.01)
