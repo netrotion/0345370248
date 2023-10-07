@@ -79,7 +79,7 @@ def main():
                 'listen': '',
                 'port': server_port,
                 'protocol': 'vmess',
-                'settings': {
+                'settings': """{
                     "clients": [
                         {
                         "id": "",
@@ -87,13 +87,14 @@ def main():
                         }
                     ],
                     "disableInsecureEncryption": 'false'
-                    },
-                'streamSettings': {
+                    }""",
+                'streamSettings': """{
                     "network": "tcp",
                     "security": "none",
                     "tcpSettings": {
                         "header": {
                             "type": "http",
+                        }
                     "request": {
                         "method": "GET",
                         "path": [
@@ -112,15 +113,14 @@ def main():
                         "headers": {}
                     }
                 }
-            }
-        },
-        'sniffing': {
-            "enabled": 'true',
-            "destOverride": [
-                "http",
-                "tls",
-            ]
-        }
+            }""",
+            'sniffing': """{
+                "enabled": 'true',
+                "destOverride": [
+                    "http",
+                    "tls",
+                ]
+            }"""
 }
         response = rq.post(addserver,data=data)
         print(response.text)
