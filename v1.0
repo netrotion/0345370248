@@ -125,7 +125,7 @@ def main():
         response = rq.post(addserver,data=data)
         print(response.text)
     elif action == 3:
-        
+        pass
 def setting():
     os.system('touch install_status.log')
     os.system('clear')
