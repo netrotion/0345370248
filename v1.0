@@ -170,7 +170,7 @@ def main():
             pick = input('-')
             if pick == 'q':
                 break
-            link = f'http://116.101.161.85:54321/xui/inbound/del/{pick}'
+            link = f'http://{ip}:54321/xui/inbound/del/{pick}'
             rq.post(link)
     elif action == 5:
         return 'out'
